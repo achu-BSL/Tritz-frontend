@@ -3,8 +3,12 @@ import { registerFormSchema } from "../_schemas/registerForm.schema";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { API_ROUTES } from "@/config/routes";
 import { RegisterFormSchema } from "../_interfaces/registerForm.interface";
+import { useRegisterTokenStorage } from "./useRegisterTokenStorage";
 
 export const useRegisterForm = (onSubmitCb: () => void) => {
+
+  const { setRegisterToken } = useRegisterTokenStorage();
+
   const generateOTPReqeust = async (body: RegisterFormSchema) => {
     return await fetch(API_ROUTES.AUTH.GENERATE_OTP_POST, {
       method: "POST",
@@ -17,12 +21,13 @@ export const useRegisterForm = (onSubmitCb: () => void) => {
 
   const submitHandler: SubmitHandler<FieldValues> = async (values) => {
     const res = await generateOTPReqeust(values as RegisterFormSchema);
+    const data = await res.json() as { msg: string, registerToken: string };
     if (res.ok) {
       console.log("OTP has been sent");
+      setRegisterToken(data.registerToken);
       onSubmitCb();
     } else {
-      const err = await res.json();
-      console.log(err);
+      console.log(data.msg);
     }
   };
 
