@@ -1,4 +1,4 @@
-const useAccessTokenStorage = () => {
+export const useAccessTokenStorage = () => {
     const KEY = "Access-token";
 
     const setAccessToken = (token: string) => {

@@ -16,6 +16,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.52.1",
+    "react-hot-toast": "^2.4.1",
     "react:2.1.13": "link:@nextui-org/react:2.1.13",
     "zod": "^3.23.8"
   },

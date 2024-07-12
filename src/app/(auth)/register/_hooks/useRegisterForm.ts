@@ -1,13 +1,15 @@
 import { useZodForm } from "@/hooks/useZodForm";
 import { registerFormSchema } from "../_schemas/registerForm.schema";
-import { FieldValues, SubmitHandler } from "react-hook-form";
+import { FieldValues, SubmitErrorHandler, SubmitHandler } from "react-hook-form";
 import { API_ROUTES } from "@/config/routes";
 import { RegisterFormSchema } from "../_interfaces/registerForm.interface";
 import { useRegisterTokenStorage } from "./useRegisterTokenStorage";
+import toast from "react-hot-toast";
 
 export const useRegisterForm = (onSubmitCb: () => void) => {
 
   const { setRegisterToken } = useRegisterTokenStorage();
+  const { register, handleSubmit, clearErrors } = useZodForm<RegisterFormSchema>(registerFormSchema);
 
   const generateOTPReqeust = async (body: RegisterFormSchema) => {
     return await fetch(API_ROUTES.AUTH.GENERATE_OTP_POST, {
@@ -19,22 +21,31 @@ export const useRegisterForm = (onSubmitCb: () => void) => {
     });
   };
 
-  const submitHandler: SubmitHandler<FieldValues> = async (values) => {
+  const onValid: SubmitHandler<FieldValues> = async (values) => {
     const res = await generateOTPReqeust(values as RegisterFormSchema);
     const data = await res.json() as { msg: string, registerToken: string };
     if (res.ok) {
-      console.log("OTP has been sent");
+      toast.success('OTP has been sent to your email');
       setRegisterToken(data.registerToken);
       onSubmitCb();
     } else {
-      console.log(data.msg);
+      toast.error(data.msg);
     }
   };
 
-  const { register, handleSubmit } = useZodForm(registerFormSchema);
+
+
+  const onInValid: SubmitErrorHandler<RegisterFormSchema> = ({ email, username, password, confirmPassword }) => {
+    if (email) toast.error(email.message!)
+    else if (username) toast.error(username.message!)
+    else if (password) toast.error(password.message!)
+    else if (confirmPassword) toast.error(confirmPassword.message!)
+
+    clearErrors();
+  }
 
   return {
-    onSubmit: handleSubmit(submitHandler),
+    onSubmit: handleSubmit(onValid, onInValid),
     register,
   };
 };
