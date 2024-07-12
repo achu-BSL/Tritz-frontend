@@ -21,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "../VerifyOTPForm.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/(auth)/register/_components/VerifyOTPForm.tsx"],
   "exclude": ["node_modules"]
 }

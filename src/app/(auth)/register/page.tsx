@@ -1,6 +1,7 @@
 "use client";
 import RegisterForm from "./_components/RegisterForm";
 import { useState } from "react";
+import VerifyOTPForm from "./_components/VerifyOTPForm";
 
 type TState = "register" | "verify-otp";
 
@@ -24,7 +25,9 @@ export default function Register() {
           {state === "register" ? (
             <RegisterForm onSubmitCb={toggleState("verify-otp")} />
           ) : (
-            <div>{/**Implement verify-otp-form */}</div>
+            <VerifyOTPForm
+              onChangeEmailButtonClickCb={toggleState("register")}
+            />
           )}
           <div>
             {" "}
