@@ -2,7 +2,7 @@
 
 import LoginForm from "./_components/LoginForm";
 
-export default function Register() {
+export default function Login() {
   return (
     <div className="h-screen flex justify-center items-center">
       <div className="flex w-[900px] border-black shadow-xl bg-white">
