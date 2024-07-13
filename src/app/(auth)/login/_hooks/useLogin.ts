@@ -3,14 +3,12 @@ import { LoginSchema } from "../_interfaces/loginForm.interface";
 import { loginSchema } from "../_schema/login.schema";
 import { SubmitErrorHandler, SubmitHandler } from "react-hook-form";
 import { API_ROUTES } from "@/config/routes";
-import { useAccessTokenStorage } from "@/hooks/useAccessTokenStorage";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
 const useLogin = () => {
   const route = useRouter();
   const { register, handleSubmit } = useZodForm<LoginSchema>(loginSchema);
-  const { setAccessToken } = useAccessTokenStorage();
 
   const loginRequest = async (email: string, password: string) => {
     return await fetch(API_ROUTES.AUTH.LOGIN_POST, {
@@ -19,6 +17,7 @@ const useLogin = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ email, password }),
+      credentials: "include",
     });
   };
 
@@ -27,7 +26,6 @@ const useLogin = () => {
     const data = (await res.json()) as { msg: string; accessToken: string };
     if (res.ok) {
       toast.success("Login successfully");
-      setAccessToken(data.accessToken);
       route.push("/posts");
     } else toast.error(data.msg);
   };

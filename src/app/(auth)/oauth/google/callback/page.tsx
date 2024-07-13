@@ -1,7 +1,6 @@
 "use client";
 
 import { API_ROUTES } from "@/config/routes";
-import { useAccessTokenStorage } from "@/hooks/useAccessTokenStorage";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -16,7 +15,6 @@ export default function GoogleOAuthCallback() {
   const code = searchParams.get("code");
   const [error, setError] = useState("");
   const router = useRouter();
-  const { setAccessToken } = useAccessTokenStorage();
 
   const codeSubmitRequest = async () => {
     const res = await fetch(API_ROUTES.AUTH.GOOGLE_AUTH_POST, {
@@ -25,12 +23,12 @@ export default function GoogleOAuthCallback() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ code }),
+      credentials: "include",
     });
 
     const data = (await res.json()) as { msg: string; accessToken: string };
     if (res.ok) {
       toast.success("Login successfully");
-      setAccessToken(data.accessToken);
       router.replace("/home");
     } else {
       toast.error(data.msg);
