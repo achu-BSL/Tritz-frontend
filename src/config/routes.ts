@@ -6,6 +6,7 @@ export const API_ROUTES = {
   AUTH: {
     GENERATE_OTP_POST: `${BACKEND_URL}/otp/generate`,
     VALIDATE_OTP_POST: `${BACKEND_URL}/otp/validate`,
-    LOGIN_POST: `${BACKEND_URL}/login`
+    LOGIN_POST: `${BACKEND_URL}/login`,
+    GOOGLE_AUTH_POST: `${BACKEND_URL}/oauth/google`
   },
 };
