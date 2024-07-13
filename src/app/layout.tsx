@@ -1,4 +1,4 @@
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import "./globals.css";
 import { NextUIProvider } from "@nextui-org/react";
 
@@ -13,7 +13,6 @@ export default function RootLayout({
       <body className="bg-tertiary">
         <Toaster toastOptions={{duration: 3000}} />
         <NextUIProvider>{children}</NextUIProvider>
-        <h1>Hello</h1>
       </body>
     </html>
   );

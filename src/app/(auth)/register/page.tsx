@@ -2,6 +2,7 @@
 import RegisterForm from "./_components/RegisterForm";
 import { useState } from "react";
 import VerifyOTPForm from "./_components/VerifyOTPForm";
+import GoogleOAuthButton from "../_components/GoogleOAuthButton";
 
 type TState = "register" | "verify-otp";
 
@@ -29,13 +30,8 @@ export default function Register() {
               onChangeEmailButtonClickCb={toggleState("register")}
             />
           )}
-          <div>
-            {" "}
-            <h4>OR</h4>
-          </div>
-          <div>
-            <h1>Google</h1>
-          </div>
+          <h4 className="text-center font-raleway">OR</h4>
+          <GoogleOAuthButton />
         </div>
         <div className="bg-primary flex-1"></div>
       </div>

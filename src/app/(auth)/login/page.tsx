@@ -1,5 +1,6 @@
 "use client";
 
+import GoogleOAuthButton from "../_components/GoogleOAuthButton";
 import LoginForm from "./_components/LoginForm";
 
 export default function Login() {
@@ -14,13 +15,8 @@ export default function Login() {
             <p className="font-owsald">Login to Your Account</p>
           </div>
           <LoginForm />
-          <div>
-            {" "}
-            <h4>OR</h4>
-          </div>
-          <div>
-            <h1>Google</h1>
-          </div>
+          <h4 className="text-center font-raleway">OR</h4>
+          <GoogleOAuthButton />
         </div>
         <div className="bg-primary flex-1"></div>
       </div>
