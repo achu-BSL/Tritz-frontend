@@ -8,17 +8,16 @@ import {
 import { API_ROUTES } from "@/config/routes";
 import toast from "react-hot-toast";
 
-import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useZodForm } from "@/hooks/useZodForm";
+import { useState } from "react";
 
 export const useVerifyOTPForm = (onChangeEmailButtonClickCb: () => void) => {
-
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { register, handleSubmit } = useZodForm<ValidateOTPFORMSchema>(
     validateOTPFormSchema
   );
-
 
   const onChangeEmailButtonClick = () => {
     onChangeEmailButtonClickCb();
@@ -38,7 +37,9 @@ export const useVerifyOTPForm = (onChangeEmailButtonClickCb: () => void) => {
   const onValid: SubmitHandler<FieldValues & ValidateOTPFORMSchema> = async ({
     otp,
   }) => {
+    setIsLoading(true);
     const res = await validateOTPRequest(otp);
+    setIsLoading(false);
     const data = (await res.json()) as { msg: string; accessToken: string };
     if (res.ok) {
       toast.success("Validation successfully");
@@ -56,5 +57,6 @@ export const useVerifyOTPForm = (onChangeEmailButtonClickCb: () => void) => {
     onChangeEmailButtonClick,
     register,
     onSubmit: handleSubmit(onValid, onInValid),
+    isLoading,
   };
 };

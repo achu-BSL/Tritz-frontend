@@ -1,9 +1,10 @@
 import { Input } from "@/components/Input";
 import Link from "next/link";
 import useLogin from "../_hooks/useLogin";
+import { LuLoader2 } from "react-icons/lu";
 
 const LoginForm = () => {
-  const { register, onSubmit } = useLogin();
+  const { register, onSubmit, isLoading } = useLogin();
   return (
     <>
       <form
@@ -23,8 +24,17 @@ const LoginForm = () => {
           type="password"
           placeholder="password"
         />
-        <button className="bg-secondary hover:bg-secondary/90 py-2 font-raleway font-medium rounded-lg">
-          Login
+        <button
+          disabled={isLoading}
+          className="bg-secondary hover:bg-secondary/90 py-2 font-raleway font-medium rounded-lg disabled:bg-primary/40"
+        >
+          {isLoading ? (
+            <p className="flex gap-2 justify-center items-center text-black/60">
+              loading <LuLoader2 size={20} className="animate-spin" />
+            </p>
+          ) : (
+            "Login"
+          )}
         </button>
       </form>
       <p className="text-center">

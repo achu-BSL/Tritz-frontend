@@ -5,8 +5,10 @@ import { SubmitErrorHandler, SubmitHandler } from "react-hook-form";
 import { API_ROUTES } from "@/config/routes";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { useState } from "react";
 
 const useLogin = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const route = useRouter();
   const { register, handleSubmit } = useZodForm<LoginSchema>(loginSchema);
 
@@ -22,7 +24,9 @@ const useLogin = () => {
   };
 
   const onValid: SubmitHandler<LoginSchema> = async ({ email, password }) => {
+    setIsLoading(true);
     const res = await loginRequest(email, password);
+    setIsLoading(false);
     const data = (await res.json()) as { msg: string; accessToken: string };
     if (res.ok) {
       toast.success("Login successfully");
@@ -38,6 +42,7 @@ const useLogin = () => {
   return {
     onSubmit: handleSubmit(onValid, onInValid),
     register,
+    isLoading
   };
 };
 

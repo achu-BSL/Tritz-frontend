@@ -8,8 +8,11 @@ import {
 import { API_ROUTES } from "@/config/routes";
 import { RegisterFormSchema } from "../_interfaces/registerForm.interface";
 import toast from "react-hot-toast";
+import { useState } from "react";
 
 export const useRegisterForm = (onSubmitCb: () => void) => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const { register, handleSubmit, clearErrors } =
     useZodForm<RegisterFormSchema>(registerFormSchema);
 
@@ -25,7 +28,9 @@ export const useRegisterForm = (onSubmitCb: () => void) => {
   };
 
   const onValid: SubmitHandler<FieldValues> = async (values) => {
+    setIsLoading(true);
     const res = await generateOTPReqeust(values as RegisterFormSchema);
+    setIsLoading(false);
     const data = (await res.json()) as { msg: string; registerToken: string };
     if (res.ok) {
       toast.success("OTP has been sent to your email");
@@ -52,5 +57,6 @@ export const useRegisterForm = (onSubmitCb: () => void) => {
   return {
     onSubmit: handleSubmit(onValid, onInValid),
     register,
+    isLoading
   };
 };
