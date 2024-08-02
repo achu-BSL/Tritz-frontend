@@ -1,0 +1,1 @@
+export type Phases = "email" | "otp" | "new-password";

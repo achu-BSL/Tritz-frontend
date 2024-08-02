@@ -24,6 +24,7 @@ const LoginForm = () => {
           type="password"
           placeholder="password"
         />
+        <Link className="text-sm text-primary font-owsald" href="/reset-password">Forgot password?</Link>
         <button
           disabled={isLoading}
           className="bg-secondary hover:bg-secondary/90 py-2 font-raleway font-medium rounded-lg disabled:bg-primary/40"
